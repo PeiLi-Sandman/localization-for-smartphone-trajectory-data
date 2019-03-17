@@ -15,7 +15,6 @@ def kmToDIST(x):
 	'''
 	function to convert real distance in km to cartesian distance 
 	'''
-	#R = 6371 * 1000
 	R = 6371 # earth radius
 	gamma = 2*np.arcsin(x/2./R) 
 	
@@ -47,5 +46,5 @@ def haversine(lon1, lat1, lon2, lat2):
 	a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
 	c = 2 * asin(sqrt(a)) 
 	r = 6371 # Radius of earth in kilometers. Use 3956 for miles
-	#r = 6371 # Radius of earth in meters
+	
 	return c * r
