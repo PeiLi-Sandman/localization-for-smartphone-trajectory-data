@@ -64,10 +64,10 @@ def get_trajectory(smartphone, ix):
 if __name__ == '__main__':
 	import time
 	start_time = time.time()
-
-	basemap = pd.read_csv(r'G:\Project\Smart Phone\GPS\map\template\point_along_road.csv')
-	android = pd.read_csv(r'G:\Project\Smart Phone\GPS\Experiment\3_13\android\20_13_new.csv')
-	iphone = pd.read_csv(r'G:\Project\Smart Phone\GPS\Experiment\3_13\iphone\20_13_new.csv')
+	# here you need to define your own data
+	basemap = XXX
+	android = XXX
+	iphone = XXX
 
 	iphone = iphone.sort_values(by='Date')
 	iphone = iphone.loc[:,['Date','lon','lan']]
