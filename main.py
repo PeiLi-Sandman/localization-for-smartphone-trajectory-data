@@ -17,9 +17,9 @@ def get_points(smartphone, base, threshold):
 	tree = spatial.cKDTree(coordinates)
 
 	
-	#x_ref, y_ref, z_ref = [to_Cartesian(lat, lng) for lat, lng in zip(smartphone[:, 2], smartphone[:, 1])]
+
 	xyz_ref = np.array([to_Cartesian(lat, lng) for lat, lng in zip(smartphone[:, 2], smartphone[:, 1])])
-	# get all the points within 30 km from the reference point
+	# get all the points within the threshold
 	ix = [tree.query_ball_point((x_ref, y_ref, z_ref), dist) for x_ref, y_ref, z_ref, dist in zip(xyz_ref[:,0],xyz_ref[:,1],xyz_ref[:,2], dist)]
 	
 	return ix
@@ -33,23 +33,20 @@ def get_trajectory(smartphone, ix):
 		
 		lat_phone = smartphone[i, 2]
 		lon_phone = smartphone[i, 1]
-		#direction_phone = smartphone[i, 3]
 		indice = ix[i]
-		#lat_map = basemap_numpy[j, 1]
-		#lon_map = basemap_numpy[j, 2]
-		#direction_map = basemap_numpy[j, 3]
+
 		if indice != []:
 			for j in range(len(indice)):
 				item = indice[j]
 				lat_map = basemap_numpy[item, 1]
 				lon_map = basemap_numpy[item, 2]
 				distance = haversine(lon_phone, lat_phone, lon_map, lat_map)
-		#delta_direction = np.abs(direction_phone - direction_map)
+
 			
 				all_distance.append(distance)
-			#all_delta_direction.append(delta_direction)
+
 				indice_map.append(item)
-				#df = np.array([indice_map, all_distance, all_delta_direction])
+				
 				df = np.array([indice_map, all_distance])
 				min_indice = int(df[0, ][np.argmin(df[1,])])
 		else:
