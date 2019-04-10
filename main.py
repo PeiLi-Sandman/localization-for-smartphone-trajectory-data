@@ -4,7 +4,7 @@ import numpy as np
 
 def get_points(smartphone, base, threshold):
     
-    # convert the 1 km to cartesian coordinates distance
+    # convert the threshold value(km) to cartesian coordinates distance
     dist_item = kmToDIST(threshold)
     
     dist = [dist_item] * len(smartphone)
