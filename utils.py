@@ -92,3 +92,29 @@ def calculate_initial_compass_bearing(pointA, pointB):
     compass_bearing = (initial_bearing + 360) % 360
 
     return compass_bearing
+
+def dataprepossessing(path):
+    df = pd.read_csv(path)
+    df = df.sort_values(by='Date')
+    #df = df.loc[:,['Date','lon','lat','app_id']]
+    df = df.drop_duplicates(subset=['lon','lat'])
+    df = df.reset_index(drop=True)
+    df['direction'] = 0
+    df['lon_1'] = df['lon'].shift(-1)
+    df['lat_1'] = df['lat'].shift(-1)
+    for i in range(len(df['Date'])):
+        pointA = (df['lat'][i], df['lon'][i])
+        pointB = (df['lat_1'][i], df['lon_1'][i])
+        df['direction'][i] = calculate_initial_compass_bearing(pointA, pointB)
+    df = df.drop(columns=['lon_1','lat_1'])
+    df = df.drop((len(df)-1))
+    
+    #df = df.loc[:, ['lon','lat','app_id', 'accx','accy','accz', 'gyrox', 'gryoy','gyroz','movement','app_id']]
+    
+    df_approach = df.loc[:, ['lon','lat','direction','app_id']]
+    df_movement = df.loc[:, ['accx','accy','accz', 'gyrox', 'gyroy','gyroz','movement']]
+    
+    approach_matrix = df_approach.as_matrix()
+    movement_matrix = df_movement.as_matrix()
+    
+    return df, approach_matrix, movement_matrix
